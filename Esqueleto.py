@@ -24,6 +24,7 @@ while intentos < 3 and Contraseña != 'OXXO':
     else:
         print("Contraseña incorrecta. No se pueden agregar o eliminar productos.")
         intentos += 1
+print("Los intentos totales para lo contraseña fueron: ", intentos)
 # Imprecion de los precios y resumen de los productos
 print(Resumen_de_productos)
 print("El precio total es: ", Precio_total)
