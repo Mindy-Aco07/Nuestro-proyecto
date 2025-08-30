@@ -1,7 +1,9 @@
+#Variables a mostrar
 Contraseña=''
 intentos=0
 Precio_total=0
 Resumen_de_productos = ''
+#Se agregan o eliminan productos
 while intentos < 3 and Contraseña != 'OXXO':
     Contraseña=input("Ingrese la contraseña: ")
     if Contraseña=='OXXO':
