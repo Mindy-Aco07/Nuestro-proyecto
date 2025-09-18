@@ -1,30 +1,91 @@
 #Variables a mostrar
 Contraseña=''
 intentos=0
+Producto=0
+Opcion = ''
+
+#---FUNCIONES PARA EL INVENTARIO---
+
+#Mostrar el menu
+def Menu():
+    print('\n--- MENÚ INVENTARIO ---')
+    print('1. Mostrar inventario')
+    print('2. Agregar producto')
+    print('3. Actualizar producto')
+    print('4. Eliminar producto')
+    print('5. Buscar producto')
+    print('6. Presupuesto total')
+    print('7. Venta')
+    print('8. Salir')
+    try:
+        Opcion = int(input("Seleccione una opción: "))
+        return Opcion
+    except ValueError: 
+        print("Opción inválida.")
+        return 
+
+#Aqui se mostrara el producto y su informacion
+def layout(nombre, datos):
+    print("Agregar el codigo para la parte ""layout""")
+
+#Aqui va el codigo para agregar algun producto nuevo
+def AgregarProducto(diccionario):
+    print("Agregar el codigo para la parte ""AgregarProducto""")
+
+#Aqui va el codigo para mostrar el inventario
+def MostrarInventario(diccionario):
+    print("Agregar el codigo para la parte ""MostrarInventario""")
+
+#Aqui va el codigo para actualizar el inventario
+def ActualizarProducto(diccionario, dato=None, nuevo_stock=None):
+    print("Agregar el codigo para la parte ""ActualizarProducto""")
+
+#Aqui va el codigo para eliminar un producto
+def EliminarProducto(diccionario):
+    print("Agregar el codigo para la parte ""EliminarProducto""")
+
+#Aqui va el codigo para buscar un producto
+def BuscarProducto(diccionario,dato=None):
+    print("Agregar el codigo para la parte ""BuscarProducto""")
+
+#Aqui va el codigo para el calculo final de precios
+def Preciototal(diccionario):
+    print("Agregar el codigo para la parte ""Preciototal""")
+
+#Aqui va el codigo para registrar las ventas
+def venta(diccionario):
+    print("Agregar el codigo para la parte ""venta""")
+
+#---PROGRAMA PRINCIPAL---
+Contraseña=''
+intentos=0
 Precio_total=0
-Resumen_de_productos = ''
-#Se agregan o eliminan productos
+Productos ={}
+Opcion=0
 while intentos < 3 and Contraseña != 'OXXO':
     Contraseña=input("Ingrese la contraseña: ")
     if Contraseña=='OXXO':
-        Producto_totales=int(input("Ingrese la cantidad del producto: "))
-        Presupuesto = float(input("Ingrese el presupuesto total: "))
-        opcion=int(input("Ingrese 1 para agregar un producto o 2 para eliminar producto: "))
-        for i in range(Producto_totales):
-            if opcion==1:
-                Nombre_del_producto=input("Ingrese el nombre del producto: ")
-                Precio_del_producto=float(input("Ingrese el precio del producto: "))
-                Cantidad_del_producto=int(input("Ingrese la cantidad del producto: "))
-        Resumen_de_productos+='Producto: '+Nombre_del_producto+', Precio: '+str(Precio_del_producto)+', Cantidad: '+str(Cantidad_del_producto)+'\n'
-        Precio_total+=Precio_del_producto*Cantidad_del_producto
-        if Precio_total > Presupuesto:
-            print("El presupuesto no es suficiente para este producto.")
-        elif opcion==2:
-            continue
+        while Opcion !=8:
+            Opcion=Menu()
+            if Opcion == 1:
+                MostrarInventario(Productos)
+            elif Opcion == 2:
+                AgregarProducto(Productos)
+            elif Opcion == 3:
+                ActualizarProducto(Productos)
+            elif Opcion == 4:
+                EliminarProducto(Productos)
+            elif Opcion == 5:
+                BuscarProducto(Productos)
+            elif Opcion == 6:
+                Precio_total(Productos)
+            elif Opcion == 7:
+                venta(Productos)
+            elif Opcion == 8:
+                print('Saliendo...')
+                print(Productos)
     else:
         print("Contraseña incorrecta. No se pueden agregar o eliminar productos.")
         intentos += 1
-print("Los intentos totales para lo contraseña fueron: ", intentos)
-# Imprecion de los precios y resumen de los productos
-print(Resumen_de_productos)
-print("El precio total es: ", Precio_total)
+
+
