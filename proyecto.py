@@ -88,7 +88,9 @@ def BuscarProducto(diccionario,dato=None):
 
 #Aqui va el codigo para el calculo final de precios
 def Preciototal(diccionario):
-    print("Agregar el codigo para la parte ""Preciototal""")
+    total = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
+    print(f"El presupuesto total es: ${total:.2f}")
+    return total
 
 #Aqui va el codigo para registrar las ventas
 def venta(diccionario):
