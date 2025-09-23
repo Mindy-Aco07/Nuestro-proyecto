@@ -26,7 +26,7 @@ def Menu():
 
 #Aqui se mostrara el producto y su informacion
 def layout(nombre, datos):
-    print("Agregar el codigo para la parte ""layout""")
+    print(f"Producto: {nombre:<15} Código: {datos['codigo']:<10} Stock: {datos['Stock']:<5} Precio: ${datos['precio']:<8.2f}")
 
 #Aqui va el codigo para agregar algun producto nuevo
 def AgregarProducto(diccionario):
