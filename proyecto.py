@@ -26,7 +26,7 @@ def Menu():
 
 #Aqui se mostrara el producto y su informacion
 def layout(nombre, datos):
-    print("Agregar el codigo para la parte ""layout""")
+    print(f"Producto: {nombre:<15} Código: {datos['codigo']:<10} Stock: {datos['Stock']:<5} Precio: ${datos['precio']:<8.2f}")
 
 #Aqui va el codigo para agregar algun producto nuevo
 def AgregarProducto(diccionario):
@@ -88,11 +88,83 @@ def BuscarProducto(diccionario,dato=None):
 
 #Aqui va el codigo para el calculo final de precios
 def Preciototal(diccionario):
-    print("Agregar el codigo para la parte ""Preciototal""")
+    total = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
+    print(f"El presupuesto total es: ${total:.2f}")
+    return total
 
 #Aqui va el codigo para registrar las ventas
-def venta(diccionario):
-    print("Agregar el codigo para la parte ""venta""")
+def venta(diccionario, archivo, ganancias_acumuladas):
+    carrito = {}
+    total_venta = 0
+    while True:
+        dato = input("Ingrese producto o código a vender (o 'salir' para terminar): ")
+        if dato.lower().strip() == 'salir':
+            break
+        
+        nombre_encontrado = None
+        for nombre, datos in diccionario.items():
+            if nombre == dato or datos['codigo'] == dato:
+                nombre_encontrado = nombre
+                break
+        
+        if not nombre_encontrado:
+            print("Ese producto no existe en el inventario.")
+            continue
+        try:
+            cantidad = int(input(f"Ingrese cantidad de '{nombre_encontrado}': "))
+        except ValueError:
+            print('Debe ser un número.')
+            continue
+        
+        if cantidad <= 0:
+            print("Cantidad inválida.")
+            continue
+        
+        stock_actual = diccionario[nombre_encontrado]['Stock']
+        if cantidad > stock_actual:
+            print(f"Stock insuficiente (disponible: {stock_actual}).")
+            continue
+        
+        #Actualizar el inventario (restar lo vendido)
+        nuevo_stock = stock_actual - cantidad
+        diccionario[nombre_encontrado]['Stock'] = nuevo_stock
+        
+        #Calcular las ganancias de cada venta
+        precio_venta = diccionario[nombre_encontrado]['precio']
+        subtotal = cantidad * precio_venta
+        total_venta += subtotal
+        
+        #Agregar al carrito
+        carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
+        print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
+
+    if carrito:
+        print("\n--- RESUMEN DE VENTA ---")
+        for prod, datos in carrito.items():
+            print(f"{prod}: {datos['cantidad']} unidades → ${datos['subtotal']:.2f}")
+        
+        print(f"Total de la venta: ${total_venta:.2f}")
+        
+        #Sumar las ganancias de esta venta a las ganancias acumuladas
+        ganancias_acumuladas += total_venta
+        print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
+        
+        print("\n--- INVENTARIO ACTUALIZADO ---")
+        MostrarInventario(diccionario)
+        
+        #Guardar los cambios
+        guardar_inventario(archivo, diccionario)
+        guardar_ganancias(archivo, ganancias_acumuladas)
+        
+        carrito.clear()
+        print('Venta finalizada.')
+    else:
+        print('No se vendió nada.')
+    
+    return ganancias_acumuladas
+
+
+
 
 #---PROGRAMA PRINCIPAL---
 Contraseña=''
