@@ -23,6 +23,22 @@ def Menu():
     except ValueError: 
         print("Opción inválida.")
         return 
+    
+#Aqui se va el codigo para el inventario
+def cargar_inventario(nombre_archivo):
+    print("Agregar el codigo para la parte ""cargar_inventario""" )
+
+#Aqui va el codigo para guardar el inventario
+def guardar_inventario(nombre_archivo, inventario):
+    print("Aqui va el codigo de la parte ""guardar_inventario""")
+
+#Aqui va el codigo para cargar las ganancias
+def cargar_ganancias(nombre_archivo):
+    print("Aqui va el codigo para la parte ""cargar_ganancias""")
+
+#Aqui va el codigo para guardar las ganancias
+def guardar_ganancias(nombre_archivo, ganancias):
+    print("Agregar el codigo para la parte ""guardar_ganancias""")
 
 #Aqui se mostrara el producto y su informacion
 def layout(nombre, datos):
