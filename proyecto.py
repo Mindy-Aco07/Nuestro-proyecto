@@ -23,6 +23,30 @@ def Menu():
     except ValueError: 
         print("Opción inválida.")
         return 
+        
+# ===== Manejo de archivos =====
+def cargar_inventario(nombre_archivo):
+    inventario = {}
+    try:
+        with open(f"{nombre_archivo}.txt", "r") as f:
+            for linea in f:
+                datos = linea.strip().split(",")
+                if len(datos) == 4:
+                    nombre, codigo, stock, precio = datos
+                    inventario[nombre] = {
+                        "codigo": codigo,
+                        "Stock": int(stock),
+                        "precio": float(precio)
+                    }
+    except FileNotFoundError:
+        print("Archivo no encontrado, se creará uno nuevo.")
+        open(f"{nombre_archivo}.txt", "w").close()
+    return inventario
+
+#Cargar y guardar ganancias
+def guardar_ganancias(nombre_archivo, ganancias):
+    with open(f"{nombre_archivo}_ganancias.txt", "w") as f:
+        f.write(f"{ganancias:.2f}")
 
 #Aqui se mostrara el producto y su informacion
 def layout(nombre, datos):
@@ -130,7 +154,6 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         #Agregar al carrito
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
-
     if carrito:
         print("\n--- RESUMEN DE VENTA ---")
         for prod, datos in carrito.items():
@@ -145,7 +168,7 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         print("\n--- INVENTARIO ACTUALIZADO ---")
         MostrarInventario(diccionario)
         
-        #Guardar los cambios
+                #Guardar los cambios
         guardar_inventario(archivo, diccionario)
         guardar_ganancias(archivo, ganancias_acumuladas)
         
@@ -155,7 +178,6 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         print('No se vendió nada.')
     
     return ganancias_acumuladas
-
 
 
 
