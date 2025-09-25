@@ -67,8 +67,24 @@ def layout(nombre, datos):
     print(f"Producto: {nombre:<15} Código: {datos['codigo']:<10} Stock: {datos['Stock']:<5} Precio: ${datos['precio']:<8.2f}")
 
 #Aqui va el codigo para agregar algun producto nuevo
-def AgregarProducto(diccionario):
-    print("Agregar el codigo para la parte ""AgregarProducto""")
+def AgregarProducto(diccionario, archivo):
+    nombre = input('Ingrese el nombre del producto: ')
+    if nombre in diccionario: 
+        print('El producto ya existe.')
+        return
+    codigo = input('Ingrese el código: ')
+    for datos in diccionario.values():
+        if datos['codigo'] == codigo:
+            print('Ya existe un producto con ese código.')
+            return
+    try:
+        stock = int(input('Ingrese stock: '))
+        precio = float(input('Ingrese precio unitario: '))
+        diccionario[nombre] = {'codigo': codigo, 'Stock': stock, 'precio': precio}
+        print('Producto agregado.')
+        guardar_inventario(archivo, diccionario)
+    except ValueError: 
+        print('Stock y precio deben ser numéricos.')
 
 #Aqui va el codigo para mostrar el inventario
 def MostrarInventario(diccionario):
