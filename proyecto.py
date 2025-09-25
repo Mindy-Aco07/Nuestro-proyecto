@@ -93,8 +93,24 @@ def Preciototal(diccionario):
     return total
 
 #Aqui va el codigo para registrar las ventas
-def venta(diccionario):
-    print("Agregar el codigo para la parte ""venta""")
+def venta(diccionario, archivo, ganancias_acumuladas):
+    carrito = {}
+    total_venta = 0
+    while True:
+        dato = input("Ingrese producto o código a vender (o 'salir' para terminar): ")
+        if dato.lower().strip() == 'salir':
+            break
+        
+        nombre_encontrado = None
+        for nombre, datos in diccionario.items():
+            if nombre == dato or datos['codigo'] == dato:
+                nombre_encontrado = nombre
+                break
+        
+        if not nombre_encontrado:
+            print("Ese producto no existe en el inventario.")
+            continue
+
 
 #---PROGRAMA PRINCIPAL---
 Contraseña=''
