@@ -43,6 +43,14 @@ def cargar_inventario(nombre_archivo):
         open(f"{nombre_archivo}.txt", "w").close()
     return inventario
 
+# Carga de ganancias
+def cargar_ganancias(nombre_archivo):
+    try:
+        with open(f"{nombre_archivo}_ganancias.txt", "r") as f:
+            return float(f.read().strip())
+    except (FileNotFoundError, ValueError):
+        return 0.0
+
 #Guardar inventario
 def guardar_inventario(nombre_archivo, inventario):
     with open(f"{nombre_archivo}.txt", "w") as f:
