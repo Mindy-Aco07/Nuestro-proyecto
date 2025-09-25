@@ -22,7 +22,7 @@ def Menu():
         return Opcion
     except ValueError: 
         print("Opción inválida.")
-        return 
+        return None
     
 #Aqui se va el codigo para el inventario
 def cargar_inventario(nombre_archivo):
