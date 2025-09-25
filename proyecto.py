@@ -92,8 +92,9 @@ def MostrarInventario(diccionario):
         print('Inventario vacío.')
     else:
         print('\n--- Inventario ---')
+        print("{:<11}{:<10}{:<10}{:<10}".format('Producto:','Código:','Stock:','Precio Unitario:'))
         for nombre, datos in diccionario.items(): 
-            layout(nombre, datos)
+            print('{:<11}{:<10}{:<10}${:<10}'.format(nombre,datos['codigo'],datos['Stock'],datos['precio']))
 
 
 #Aqui va el codigo para actualizar el inventario
