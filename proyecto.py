@@ -100,7 +100,7 @@ def MostrarInventario(diccionario):
 #Aqui va el codigo para actualizar el inventario
 def ActualizarProducto(diccionario, archivo, dato=None, nuevo_stock=None):
     if dato is None:
-        dato = input("Ingrese producto a actualizar: ")
+        dato = input("Ingrese producto a actualizar: ").lower().strip()
     if dato in diccionario:
         try:
             if nuevo_stock is None:
@@ -118,7 +118,7 @@ def ActualizarProducto(diccionario, archivo, dato=None, nuevo_stock=None):
   
 #Aqui va el codigo para eliminar un producto
 def EliminarProducto(diccionario, archivo):
-    dato = input("Ingrese producto a eliminar: ")
+    dato = input("Ingrese producto a eliminar: ").lower().strip()
     if dato in diccionario:
         diccionario.pop(dato)
         print('Producto eliminado')
@@ -129,7 +129,7 @@ def EliminarProducto(diccionario, archivo):
 #Aqui va el codigo para buscar un producto
 def BuscarProducto(diccionario,dato=None):
     if dato is None:
-        dato = input('Ingrese producto o código a buscar: ')
+        dato = input('Ingrese producto o código a buscar: ').lower().strip()
     encontrado = False
     for nombre, datos in diccionario.items():
         if nombre == dato or datos['codigo'] == dato:
@@ -157,7 +157,7 @@ def venta(diccionario, archivo, ganancias_acumuladas):
     carrito = {}
     total_venta = 0
     while True:
-        dato = input("Ingrese producto o código a vender (o 'salir' para terminar): ")
+        dato = input("Ingrese producto o código a vender (o 'salir' para terminar): ").lower().strip()
         if dato.lower().strip() == 'salir':
             break
         
