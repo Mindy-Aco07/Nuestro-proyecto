@@ -138,6 +138,32 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
 
+    if carrito:
+        print("\n--- RESUMEN DE VENTA ---")
+        for prod, datos in carrito.items():
+            print(f"{prod}: {datos['cantidad']} unidades → ${datos['subtotal']:.2f}")
+        
+        print(f"Total de la venta: ${total_venta:.2f}")
+        
+        #Sumar las ganancias de esta venta a las ganancias acumuladas
+        ganancias_acumuladas += total_venta
+        print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
+        
+        print("\n--- INVENTARIO ACTUALIZADO ---")
+        MostrarInventario(diccionario)
+        
+        #Guardar los cambios
+        guardar_inventario(archivo, diccionario)
+        guardar_ganancias(archivo, ganancias_acumuladas)
+        
+        carrito.clear()
+        print('Venta finalizada.')
+    else:
+        print('No se vendió nada.')
+    
+    return ganancias_acumuladas
+
+
 
 
 #---PROGRAMA PRINCIPAL---
