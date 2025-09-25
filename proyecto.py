@@ -124,11 +124,17 @@ def BuscarProducto(diccionario,dato=None):
     return encontrado
 
 #Aqui va el codigo para el calculo final de precios
-def Preciototal(diccionario):
-    total = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
-    print(f"El presupuesto total es: ${total:.2f}")
-    return total
-
+def Preciototal(diccionario, ganancias_totales):
+    #Valor inventario (ganancias por venta)
+    valor_inventario = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
+    
+    #Mostrar: valor del inventario + ganancias acumuladas
+    print(f"\n--- PRESUPUESTO TOTAL ---")
+    print(f"Valor del inventario (no es ganancia): ${valor_inventario:.2f}")
+    print(f"Ganancias por ventas realizadas: ${ganancias_totales:.2f}")
+    print(f"TOTAL GENERAL (solo ganancias): ${ganancias_totales:.2f}")
+    
+    return ganancias_totales #solo las ganancias
 #Aqui va el codigo para registrar las ventas
 def venta(diccionario, archivo, ganancias_acumuladas):
     carrito = {}
