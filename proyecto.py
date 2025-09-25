@@ -68,7 +68,7 @@ def layout(nombre, datos):
 
 #Aqui va el codigo para agregar algun producto nuevo
 def AgregarProducto(diccionario, archivo):
-    nombre = input('Ingrese el nombre del producto: ')
+    nombre = input('Ingrese el nombre del producto: ').lower().strip()
     if nombre in diccionario: 
         print('El producto ya existe.')
         return
