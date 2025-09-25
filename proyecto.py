@@ -110,6 +110,34 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         if not nombre_encontrado:
             print("Ese producto no existe en el inventario.")
             continue
+        try:
+            cantidad = int(input(f"Ingrese cantidad de '{nombre_encontrado}': "))
+        except ValueError:
+            print('Debe ser un número.')
+            continue
+        
+        if cantidad <= 0:
+            print("Cantidad inválida.")
+            continue
+        
+        stock_actual = diccionario[nombre_encontrado]['Stock']
+        if cantidad > stock_actual:
+            print(f"Stock insuficiente (disponible: {stock_actual}).")
+            continue
+        
+        #Actualizar el inventario (restar lo vendido)
+        nuevo_stock = stock_actual - cantidad
+        diccionario[nombre_encontrado]['Stock'] = nuevo_stock
+        
+        #Calcular las ganancias de cada venta
+        precio_venta = diccionario[nombre_encontrado]['precio']
+        subtotal = cantidad * precio_venta
+        total_venta += subtotal
+        
+        #Agregar al carrito
+        carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
+        print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
+
 
 
 #---PROGRAMA PRINCIPAL---
