@@ -43,6 +43,12 @@ def cargar_inventario(nombre_archivo):
         open(f"{nombre_archivo}.txt", "w").close()
     return inventario
 
+#Guardar inventario
+def guardar_inventario(nombre_archivo, inventario):
+    with open(f"{nombre_archivo}.txt", "w") as f:
+        for nombre, datos in inventario.items():
+            f.write(f"{nombre},{datos['codigo']},{datos['Stock']},{datos['precio']}\n")
+
 #Cargar y guardar ganancias
 def guardar_ganancias(nombre_archivo, ganancias):
     with open(f"{nombre_archivo}_ganancias.txt", "w") as f:
@@ -58,7 +64,13 @@ def AgregarProducto(diccionario):
 
 #Aqui va el codigo para mostrar el inventario
 def MostrarInventario(diccionario):
-    print("Agregar el codigo para la parte ""MostrarInventario""")
+    if not diccionario:
+        print('Inventario vacío.')
+    else:
+        print('\n--- Inventario ---')
+        for nombre, datos in diccionario.items(): 
+            layout(nombre, datos)
+
 
 #Aqui va el codigo para actualizar el inventario
 def ActualizarProducto(diccionario, dato=None, nuevo_stock=None):
