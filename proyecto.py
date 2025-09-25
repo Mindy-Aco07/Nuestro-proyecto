@@ -199,35 +199,53 @@ def venta(diccionario, archivo, ganancias_acumuladas):
     return ganancias_acumuladas
 
 
+# ===== Programa principal =====
+Contraseña = ''
+intentos = 0
+Opcion = 0
 
-#---PROGRAMA PRINCIPAL---
-Contraseña=''
-intentos=0
-Precio_total=0
-Productos ={}
-Opcion=0
-while intentos < 3 and Contraseña != 'OXXO':
-    Contraseña=input("Ingrese la contraseña: ")
-    if Contraseña=='OXXO':
-        while Opcion !=8:
-            Opcion=Menu()
+#Nombre de variable corregido (nomrbre_archivo - nombre_archivo)
+nombre_archivo = input('¿Qué nombre tiene el archivo?: ').strip()
+Productos = cargar_inventario(nombre_archivo)
+
+#Cargar las ganancias acumuladas
+ganancias_totales = cargar_ganancias(nombre_archivo)
+print(f"Ganancias acumuladas cargadas: ${ganancias_totales:.2f}")
+
+while intentos < 3:
+    Contraseña = input("Ingrese la contraseña: ")
+    if Contraseña == 'OXO':
+        while True: #para controlar de mejor manera el bucle (mientras la opcion sea Menu() creara el bucle infinito) y que al salir del programa, el usuario del programa completamente
+            Opcion = Menu()
+            
+            #Verificar si "Opcion es None(nada o vacio)" (ahora el programa verifica None)--- if Opcion is None verifica especificamente si Menu() retorno Nonee
+            if Opcion is None: #En el programa no corregido si el usuario ingresaba un valor invalido Menu() mostraba None lo que hacia que todas las demas opciones (Opcion == 1, etc dieran "false")
+                continue
+            #while Opcion != 8 posible error: Si "Opcion" empieza en 8, el bucle nunca funciona - Si despues de salir del programa el usuario elige 8, "Opcion" queda en 8 para siempre
+                
             if Opcion == 1:
                 MostrarInventario(Productos)
             elif Opcion == 2:
-                AgregarProducto(Productos)
+                AgregarProducto(Productos, nombre_archivo)
             elif Opcion == 3:
-                ActualizarProducto(Productos)
+                ActualizarProducto(Productos, nombre_archivo)
             elif Opcion == 4:
-                EliminarProducto(Productos)
+                EliminarProducto(Productos, nombre_archivo)
             elif Opcion == 5:
                 BuscarProducto(Productos)
             elif Opcion == 6:
-                Precio_total(Productos)
+                Preciototal(Productos, ganancias_totales)
             elif Opcion == 7:
-                venta(Productos)
+                ganancias_totales = venta(Productos, nombre_archivo, ganancias_totales)
             elif Opcion == 8:
                 print('Saliendo...')
-                print(Productos)
+                guardar_inventario(nombre_archivo, Productos)
+                guardar_ganancias(nombre_archivo, ganancias_totales)
+                break
+        break  #break par salir del bucle de contraseña cuando se sale del programa
     else:
-        print("Contraseña incorrecta. No se pueden agregar o eliminar productos.")
+        print("Contraseña incorrecta.")
         intentos += 1
+        if intentos >= 3: #En caso de que se excedan los intentos
+            print("Demasiados intentos fallidos. Saliendo del programa.") #Mensaje de que se excedieron los intentos
+            break
