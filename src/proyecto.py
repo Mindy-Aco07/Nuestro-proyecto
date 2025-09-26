@@ -57,14 +57,23 @@ def guardar_inventario(nombre_archivo, inventario):
         for nombre, datos in inventario.items():
             f.write(f"{nombre},{datos['codigo']},{datos['Stock']},{datos['precio']}\n")
 
+def Fecha():
+    from datetime import datetime
+    now = datetime.now()
+    formato = now.strftime("%c")
+    return formato
 #Cargar y guardar ganancias
-def guardar_ganancias(nombre_archivo, ganancias, prod=None, datos=None):
-    if prod:
+def guardar_ganancias(nombre_archivo, ganancias,venta=None,diccionario=None):  
+     if diccionario:
         with open(f"{nombre_archivo}_ganancias.txt", "a") as f:
-            f.write(f"{prod}: {datos['cantidad']} unidades ${datos['subtotal']:.2f}\n")
-    else:
+            for prod, datos in diccionario.items():
+                    f.write(f"\n{prod}: {datos['cantidad']} unidades ${datos['subtotal']:.2f}")
+                    f.write(f"\nTotal de la venta: ${venta:.2f}")
+                    f.write(f"\n{Fecha()}\n")
+     else:
         with open(f"{nombre_archivo}_ganancias.txt", "a") as f:
-            f.write(f"Venta total: ${ganancias:.2f}")
+            f.write(f"\nVenta total: ${ganancias:.2f}")
+            f.write(f"\n{Fecha()}\n")
 
 #Aqui se mostrara el producto y su informacion
 def layout(nombre, datos):
@@ -204,11 +213,10 @@ def venta(diccionario, archivo, ganancias_acumuladas):
     if carrito:
         print("\n--- RESUMEN DE VENTA ---")
         for prod, datos in carrito.items():
-            guardar_ganancias(archivo, ganancias_acumuladas, prod, datos)
             print(f"{prod}: {datos['cantidad']} unidades → ${datos['subtotal']:.2f}")
         
         print(f"Total de la venta: ${total_venta:.2f}")
-        
+        guardar_ganancias(archivo,ganancias_acumuladas,total_venta,carrito)
         #Sumar las ganancias de esta venta a las ganancias acumuladas
         ganancias_acumuladas += total_venta
         print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
