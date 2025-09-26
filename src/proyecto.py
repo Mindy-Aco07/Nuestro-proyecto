@@ -6,7 +6,7 @@ Opcion = ''
 
 #---FUNCIONES PARA EL INVENTARIO---
 
-#Mostrar el menu
+#Esta funcion muestra el menu del programa
 def Menu():
     print('\n--- MENÚ INVENTARIO ---')
     print('1. Mostrar inventario')
@@ -24,7 +24,7 @@ def Menu():
         print("Opción inválida.")
         return 
         
-# ===== Manejo de archivos =====
+#En esta función se lleva a cabo el manejo y guardado de archivos .txt con el inventario
 def cargar_inventario(nombre_archivo):
     inventario = {}
     try:
@@ -43,7 +43,7 @@ def cargar_inventario(nombre_archivo):
         open(f"{nombre_archivo}.txt", "w").close()
     return inventario
 
-# Carga de ganancias
+#En esta funcion se lleva a cabo el manejo y guardado de archivos .txt con las ganancias
 def cargar_ganancias(nombre_archivo):
     try:
         with open(f"{nombre_archivo}_ganancias.txt", "r") as f:
@@ -51,13 +51,13 @@ def cargar_ganancias(nombre_archivo):
     except (FileNotFoundError, ValueError):
         return 0.0
 
-#Guardar inventario
+#En esta funcion se guarda y carga el inventario
 def guardar_inventario(nombre_archivo, inventario):
     with open(f"{nombre_archivo}.txt", "w") as f:
         for nombre, datos in inventario.items():
             f.write(f"{nombre},{datos['codigo']},{datos['Stock']},{datos['precio']}\n")
 
-#Cargar y guardar ganancias
+#En esta funcion se cargan y guardan las ganancias
 def guardar_ganancias(nombre_archivo, ganancias, prod=None, datos=None):
     if prod:
         with open(f"{nombre_archivo}_ganancias.txt", "a") as f:
@@ -66,11 +66,11 @@ def guardar_ganancias(nombre_archivo, ganancias, prod=None, datos=None):
         with open(f"{nombre_archivo}_ganancias.txt", "a") as f:
             f.write(f"Venta total: ${ganancias:.2f}")
 
-#Aqui se mostrara el producto y su informacion
+#Con esta funcion se mostrara el producto con su respectiva informacion
 def layout(nombre, datos):
     print(f"Producto: {nombre:<15} Código: {datos['codigo']:<10} Stock: {datos['Stock']:<5} Precio: ${datos['precio']:<8.2f}")
 
-#Aqui va el codigo para agregar algun producto nuevo
+#Esta funcion es para agregar productos nuevos
 def AgregarProducto(diccionario, archivo):
     nombre = input('Ingrese el nombre del producto: ').lower().strip()
     if nombre in diccionario: 
@@ -90,7 +90,7 @@ def AgregarProducto(diccionario, archivo):
     except ValueError: 
         print('Stock y precio deben ser numéricos.')
 
-#Aqui va el codigo para mostrar el inventario
+#Con esta funcion se va a mostrar el inventario
 def MostrarInventario(diccionario):
     if not diccionario:
         print('Inventario vacío.')
@@ -101,7 +101,7 @@ def MostrarInventario(diccionario):
             print('{:<11}{:<10}{:<10}${:<10}'.format(nombre,datos['codigo'],datos['Stock'],datos['precio']))
 
 
-#Aqui va el codigo para actualizar el inventario
+#Esta funcion es para poder actualizar el invemtario
 def ActualizarProducto(diccionario, archivo, dato=None, nuevo_stock=None):
     if dato is None:
         dato = input("Ingrese producto a actualizar: ").lower().strip()
@@ -120,7 +120,7 @@ def ActualizarProducto(diccionario, archivo, dato=None, nuevo_stock=None):
         print('No encontrado.')
         return False
   
-#Aqui va el codigo para eliminar un producto
+#Con esta función se podran eliminar productos
 def EliminarProducto(diccionario, archivo):
     dato = input("Ingrese producto a eliminar: ").lower().strip()
     if dato in diccionario:
@@ -130,7 +130,7 @@ def EliminarProducto(diccionario, archivo):
     else:
         print('Producto no encontrado')
 
-#Aqui va el codigo para buscar un producto
+#Esta funcion es para poder buescar un producto junto con sus datos
 def BuscarProducto(diccionario,dato=None):
     if dato is None:
         dato = input('Ingrese producto o código a buscar: ').lower().strip()
@@ -144,19 +144,19 @@ def BuscarProducto(diccionario,dato=None):
         print('No encontrado.')
     return encontrado
 
-#Aqui va el codigo para el calculo final de precios
+
 def Preciototal(diccionario, ganancias_totales):
-    #Valor inventario (ganancias por venta)
+    
     valor_inventario = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
     
-    #Mostrar: valor del inventario + ganancias acumuladas
     print(f"\n--- PRESUPUESTO TOTAL ---")
     print(f"Valor del inventario (no es ganancia): ${valor_inventario:.2f}")
     print(f"Ganancias por ventas realizadas: ${ganancias_totales:.2f}")
     print(f"TOTAL GENERAL (solo ganancias): ${ganancias_totales:.2f}")
     
-    return ganancias_totales #solo las ganancias
-#Aqui va el codigo para registrar las ventas
+    return ganancias_totales 
+
+
 def venta(diccionario, archivo, ganancias_acumuladas):
     carrito = {}
     total_venta = 0
@@ -189,16 +189,16 @@ def venta(diccionario, archivo, ganancias_acumuladas):
             print(f"Stock insuficiente (disponible: {stock_actual}).")
             continue
         
-        #Actualizar el inventario (restar lo vendido)
+       
         nuevo_stock = stock_actual - cantidad
         diccionario[nombre_encontrado]['Stock'] = nuevo_stock
         
-        #Calcular las ganancias de cada venta
+       
         precio_venta = diccionario[nombre_encontrado]['precio']
         subtotal = cantidad * precio_venta
         total_venta += subtotal
         
-        #Agregar al carrito
+        
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
     if carrito:
@@ -209,14 +209,14 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         
         print(f"Total de la venta: ${total_venta:.2f}")
         
-        #Sumar las ganancias de esta venta a las ganancias acumuladas
+       
         ganancias_acumuladas += total_venta
         print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
         
         print("\n--- INVENTARIO ACTUALIZADO ---")
         MostrarInventario(diccionario)
         
-                #Guardar los cambios
+                
         guardar_inventario(archivo, diccionario)
         guardar_ganancias(archivo, ganancias_acumuladas)
         
@@ -233,24 +233,22 @@ Contraseña = ''
 intentos = 0
 Opcion = 0
 
-#Nombre de variable corregido (nomrbre_archivo - nombre_archivo)
 nombre_archivo = input('¿Qué nombre tiene el archivo?: ').strip()
 Productos = cargar_inventario(nombre_archivo)
 
-#Cargar las ganancias acumuladas
+
 ganancias_totales = cargar_ganancias(nombre_archivo)
 print(f"Ganancias acumuladas cargadas: ${ganancias_totales:.2f}")
 
 while intentos < 3:
     Contraseña = input("Ingrese la contraseña: ")
     if Contraseña == 'OXO':
-        while True: #para controlar de mejor manera el bucle (mientras la opcion sea Menu() creara el bucle infinito) y que al salir del programa, el usuario del programa completamente
+        while True: 
             Opcion = Menu()
             
-            #Verificar si "Opcion es None(nada o vacio)" (ahora el programa verifica None)--- if Opcion is None verifica especificamente si Menu() retorno Nonee
-            if Opcion is None: #En el programa no corregido si el usuario ingresaba un valor invalido Menu() mostraba None lo que hacia que todas las demas opciones (Opcion == 1, etc dieran "false")
+            if Opcion is None: 
                 continue
-            #while Opcion != 8 posible error: Si "Opcion" empieza en 8, el bucle nunca funciona - Si despues de salir del programa el usuario elige 8, "Opcion" queda en 8 para siempre
+            
                 
             if Opcion == 1:
                 MostrarInventario(Productos)
@@ -271,10 +269,10 @@ while intentos < 3:
                 guardar_inventario(nombre_archivo, Productos)
                 guardar_ganancias(nombre_archivo, ganancias_totales)
                 break
-        break  #break par salir del bucle de contraseña cuando se sale del programa
+        break  
     else:
         print("Contraseña incorrecta.")
         intentos += 1
-        if intentos >= 3: #En caso de que se excedan los intentos
-            print("Demasiados intentos fallidos. Saliendo del programa.") #Mensaje de que se excedieron los intentos
+        if intentos >= 3: 
+            print("Demasiados intentos fallidos. Saliendo del programa.") 
             break
