@@ -161,7 +161,7 @@ def venta(diccionario, archivo, ganancias_acumuladas):
             print(f"Stock insuficiente (disponible: {stock_actual}).")
             continue
         
-        #Actualizar el inventario (restar lo vendido)
+        #Esta funcion nos sirve para actualizar el inventario de manera correcta y restarle la cantidad que se vendió.
         nuevo_stock = stock_actual - cantidad
         diccionario[nombre_encontrado]['Stock'] = nuevo_stock
         
