@@ -144,9 +144,9 @@ def BuscarProducto(diccionario,dato=None):
         print('No encontrado.')
     return encontrado
 
-
+#Esta funcion es para el calculo final de los precios
 def Preciototal(diccionario, ganancias_totales):
-    
+    #Esto es solo de ganancias de las ventas
     valor_inventario = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
     
     print(f"\n--- PRESUPUESTO TOTAL ---")
@@ -154,9 +154,9 @@ def Preciototal(diccionario, ganancias_totales):
     print(f"Ganancias por ventas realizadas: ${ganancias_totales:.2f}")
     print(f"TOTAL GENERAL (solo ganancias): ${ganancias_totales:.2f}")
     
-    return ganancias_totales 
+    return ganancias_totales #son solo las ganancias
 
-
+#Esta funcion registrara las ventas
 def venta(diccionario, archivo, ganancias_acumuladas):
     carrito = {}
     total_venta = 0
@@ -189,16 +189,16 @@ def venta(diccionario, archivo, ganancias_acumuladas):
             print(f"Stock insuficiente (disponible: {stock_actual}).")
             continue
         
-       
+        #Aqui resta lo vendido para actualizar el inventario
         nuevo_stock = stock_actual - cantidad
         diccionario[nombre_encontrado]['Stock'] = nuevo_stock
         
-       
+        #Calcular las ganancias de cada venta
         precio_venta = diccionario[nombre_encontrado]['precio']
         subtotal = cantidad * precio_venta
         total_venta += subtotal
         
-        
+        #Agregar al carrito
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
     if carrito:
@@ -209,14 +209,14 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         
         print(f"Total de la venta: ${total_venta:.2f}")
         
-       
+        #Sumar las ganancias de esta venta a las ganancias acumuladas
         ganancias_acumuladas += total_venta
         print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
         
         print("\n--- INVENTARIO ACTUALIZADO ---")
         MostrarInventario(diccionario)
         
-                
+                #aqui se guardan los cambios
         guardar_inventario(archivo, diccionario)
         guardar_ganancias(archivo, ganancias_acumuladas)
         
@@ -236,7 +236,7 @@ Opcion = 0
 nombre_archivo = input('¿Qué nombre tiene el archivo?: ').strip()
 Productos = cargar_inventario(nombre_archivo)
 
-
+#aqui carga las ganancias acumuladas
 ganancias_totales = cargar_ganancias(nombre_archivo)
 print(f"Ganancias acumuladas cargadas: ${ganancias_totales:.2f}")
 
@@ -274,5 +274,5 @@ while intentos < 3:
         print("Contraseña incorrecta.")
         intentos += 1
         if intentos >= 3: 
-            print("Demasiados intentos fallidos. Saliendo del programa.") 
+            print("Demasiados intentos fallidos. Saliendo del programa.") #Mensaje en caso de que hayan demaciados intentos fallidos
             break
