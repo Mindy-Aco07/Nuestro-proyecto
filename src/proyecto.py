@@ -144,19 +144,19 @@ def BuscarProducto(diccionario,dato=None):
         print('No encontrado.')
     return encontrado
 
-#Aqui va el codigo para el calculo final de precios
+#Esta funcion es la que se encarga de hacer el calculo final de precios.
 def Preciototal(diccionario, ganancias_totales):
-    #Valor inventario (ganancias por venta)
+    #El valor inventario se encarga de guardar las ganancias que se tienen por cada venta.
     valor_inventario = sum(diccionario[p]['Stock'] * diccionario[p]['precio'] for p in diccionario)
     
-    #Mostrar: valor del inventario + ganancias acumuladas
+    #Muestra el valor del inventario que hay disponible y las ganancias que se tienen registradas.
     print(f"\n--- PRESUPUESTO TOTAL ---")
     print(f"Valor del inventario (no es ganancia): ${valor_inventario:.2f}")
     print(f"Ganancias por ventas realizadas: ${ganancias_totales:.2f}")
     print(f"TOTAL GENERAL (solo ganancias): ${ganancias_totales:.2f}")
     
-    return ganancias_totales #solo las ganancias
-#Aqui va el codigo para registrar las ventas
+    return ganancias_totales #Muestra solo las ganancias
+#Este codigo se encarga de registrar las ventas y guardar los cambios.
 def venta(diccionario, archivo, ganancias_acumuladas):
     carrito = {}
     total_venta = 0
@@ -189,16 +189,16 @@ def venta(diccionario, archivo, ganancias_acumuladas):
             print(f"Stock insuficiente (disponible: {stock_actual}).")
             continue
         
-        #Actualizar el inventario (restar lo vendido)
+        #Esta funcion se encarga de actualizar el inventario de productos en existencia restando lo que se vendió.
         nuevo_stock = stock_actual - cantidad
         diccionario[nombre_encontrado]['Stock'] = nuevo_stock
         
-        #Calcular las ganancias de cada venta
+        #Esta funcion nos sirve para calcular las ganancias de cada venta que se hace.
         precio_venta = diccionario[nombre_encontrado]['precio']
         subtotal = cantidad * precio_venta
         total_venta += subtotal
         
-        #Agregar al carrito
+        #Esta funcion sirve para agregar los productos que son escritos se envian al carrito de compras.
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
     if carrito:
@@ -209,14 +209,14 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         
         print(f"Total de la venta: ${total_venta:.2f}")
         
-        #Sumar las ganancias de esta venta a las ganancias acumuladas
+        #Esta funcion nos sirve para Sumar las ganancias de esta venta a las ganancias acumuladas.
         ganancias_acumuladas += total_venta
         print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
         
         print("\n--- INVENTARIO ACTUALIZADO ---")
         MostrarInventario(diccionario)
         
-                #Guardar los cambios
+                #Esta nos sirve para guardar los cambios de manera correcta y al instante.
         guardar_inventario(archivo, diccionario)
         guardar_ganancias(archivo, ganancias_acumuladas)
         
@@ -237,20 +237,20 @@ Opcion = 0
 nombre_archivo = input('¿Qué nombre tiene el archivo?: ').strip()
 Productos = cargar_inventario(nombre_archivo)
 
-#Cargar las ganancias acumuladas
+#Esta funcion nos sirve para agregar correctamente las ganancias al archivo.
 ganancias_totales = cargar_ganancias(nombre_archivo)
 print(f"Ganancias acumuladas cargadas: ${ganancias_totales:.2f}")
 
 while intentos < 3:
     Contraseña = input("Ingrese la contraseña: ")
     if Contraseña == 'OXO':
-        while True: #para controlar de mejor manera el bucle (mientras la opcion sea Menu() creara el bucle infinito) y que al salir del programa, el usuario del programa completamente
+        while True: 
             Opcion = Menu()
             
-            #Verificar si "Opcion es None(nada o vacio)" (ahora el programa verifica None)--- if Opcion is None verifica especificamente si Menu() retorno Nonee
-            if Opcion is None: #En el programa no corregido si el usuario ingresaba un valor invalido Menu() mostraba None lo que hacia que todas las demas opciones (Opcion == 1, etc dieran "false")
+            
+            if Opcion is None: 
                 continue
-            #while Opcion != 8 posible error: Si "Opcion" empieza en 8, el bucle nunca funciona - Si despues de salir del programa el usuario elige 8, "Opcion" queda en 8 para siempre
+            
                 
             if Opcion == 1:
                 MostrarInventario(Productos)
@@ -271,10 +271,10 @@ while intentos < 3:
                 guardar_inventario(nombre_archivo, Productos)
                 guardar_ganancias(nombre_archivo, ganancias_totales)
                 break
-        break  #break par salir del bucle de contraseña cuando se sale del programa
+        break  
     else:
         print("Contraseña incorrecta.")
         intentos += 1
-        if intentos >= 3: #En caso de que se excedan los intentos
-            print("Demasiados intentos fallidos. Saliendo del programa.") #Mensaje de que se excedieron los intentos
+        if intentos >= 3: 
+            print("Demasiados intentos fallidos. Saliendo del programa.") 
             break
