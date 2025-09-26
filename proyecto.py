@@ -165,12 +165,12 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         nuevo_stock = stock_actual - cantidad
         diccionario[nombre_encontrado]['Stock'] = nuevo_stock
         
-        #Calcular las ganancias de cada venta
+        #Esta funcion nos sirve para calcular las ganancias de cada venta que se hace.
         precio_venta = diccionario[nombre_encontrado]['precio']
         subtotal = cantidad * precio_venta
         total_venta += subtotal
         
-        #Agregar al carrito
+        #Esta funcion sirve para agregar los productos que son escritos se envian al carrito de compras.
         carrito[nombre_encontrado] = {'cantidad': cantidad, 'subtotal': subtotal}
         print(f"{cantidad} {nombre_encontrado} añadido al carrito. Subtotal: ${subtotal:.2f}")
     if carrito:
@@ -180,14 +180,14 @@ def venta(diccionario, archivo, ganancias_acumuladas):
         
         print(f"Total de la venta: ${total_venta:.2f}")
         
-        #Sumar las ganancias de esta venta a las ganancias acumuladas
+        #Esta funcion nos sirve para Sumar las ganancias de esta venta a las ganancias acumuladas.
         ganancias_acumuladas += total_venta
         print(f"Ganancias acumuladas actualizadas: ${ganancias_acumuladas:.2f}")
         
         print("\n--- INVENTARIO ACTUALIZADO ---")
         MostrarInventario(diccionario)
         
-                #Guardar los cambios
+                #esta nos sirve para guardar los cambios de manera correcta y al instante.
         guardar_inventario(archivo, diccionario)
         guardar_ganancias(archivo, ganancias_acumuladas)
         
@@ -208,7 +208,7 @@ Opcion = 0
 nombre_archivo = input('¿Qué nombre tiene el archivo?: ').strip()
 Productos = cargar_inventario(nombre_archivo)
 
-#Cargar las ganancias acumuladas
+#Esta funcion nos sirve para agregar correctamente las ganancias al archivo.
 ganancias_totales = cargar_ganancias(nombre_archivo)
 print(f"Ganancias acumuladas cargadas: ${ganancias_totales:.2f}")
 
